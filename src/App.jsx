@@ -1,43 +1,51 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import supabase from "../supabase";
 
 function App() {
-  const [count, setCount] = useState(0);
-  async function test() {
-    let { data: test, error } = await supabase.from("test").select("id");
-    console.log(test, error);
+  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState([]);
+
+  // Function to send a message
+  async function sendMessage() {
+      const message = input;
+      if (message.trim() !== '') {
+          const { data, error } = await supabase
+              .from('messages')
+              .insert([
+                  { content: message, timestamp: new Date() },
+              ]);
+  
+          if (error) {
+              console.error('Error sending message:', error.message);
+          }
+        setInput('')
+      }
+
   }
+
+  async function addMessage(msgobj) {
+    setMessages((prevMessages) => [...prevMessages, msgobj]);
+  }
+
   useEffect(() => {
-    test();
+    const subscription = supabase
+      .channel('messages')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
+        addMessage(payload.new)
+      }).subscribe()
+
   }, []);
 
-  console.log();
-
+  
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {messages.map((msg, index) => <p key={index}>{msg.timestamp} | <strong>{msg.content}</strong></p>)}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      <input type="text" name="message" onChange={(e) => setInput(e.target.value)} placeholder="Type your message" />
+      <button onClick={() => sendMessage()}>Send</button>
     </>
   );
 }
