@@ -6,6 +6,8 @@ function App() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [lusername, _] = useState(localStorage.getItem("username"));
+  const [topic, setTopic] = useState(""); // room topic
+  const [room, setRoom] = useState(""); // room, controlled by getRoomId
 
   // Function to send a message
   async function sendMessage() {
@@ -14,7 +16,7 @@ function App() {
       const { data, error } = await supabase
         .from("messages")
         .insert([
-          { content: message, timestamp: new Date(), username: lusername },
+          { room_id: room, content: message, timestamp: new Date(), username: lusername },
         ]);
 
       if (error) {
@@ -30,12 +32,21 @@ function App() {
     setMessages((prevMessages) => [...prevMessages, msgobj]);
   }
 
+  async function getRoomId(name) {
+    let { data, error } = await supabase
+      .from('rooms')
+      .select('room_id')
+      .eq('topic', name);
+
+    return data[0].room_id;
+  };
+
   useEffect(() => {
     const subscription = supabase
       .channel("messages")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages" },
+        { event: "INSERT", schema: "public", table: "messages", filter: `room_id=${room}`, },
         (payload) => {
           addMessage(payload.new);
         }
@@ -73,6 +84,22 @@ function App() {
         placeholder="say something"
       />
       <button onClick={() => sendMessage()}>Send</button>
+
+      <br />
+      <input
+        type="text"
+        name="room"
+        id="tab-title"
+        onChange={(e) => setTopic(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key == "Enter") {
+            setRoom(getRoomId(topic));
+            setTopic('');
+            document.getElementById('tab-title').value = '';
+          }
+        }}
+        placeholder="room topic"
+      />
     </>
   );
 }
