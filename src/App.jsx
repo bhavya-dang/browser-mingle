@@ -38,7 +38,7 @@ function App() {
       .select('room_id')
       .eq('topic', name);
 
-    return data[0].room_id;
+    return data[0].room_id
   };
 
   useEffect(() => {
@@ -46,13 +46,13 @@ function App() {
       .channel("messages")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages", filter: `room_id=${room}`, },
+        { event: "INSERT", schema: "public", table: "messages", filter: "room_id=eq."+room, },
         (payload) => {
           addMessage(payload.new);
         }
       )
       .subscribe();
-  }, []);
+  }, [room]);
 
   return (
     <>
@@ -93,13 +93,13 @@ function App() {
         onChange={(e) => setTopic(e.target.value)}
         onKeyDown={(e) => {
           if (e.key == "Enter") {
-            setRoom(getRoomId(topic));
-            setTopic('');
-            document.getElementById('tab-title').value = '';
+            getRoomId(topic).then((r) => setRoom(r));
           }
         }}
         placeholder="room topic"
       />
+
+      <p>room id: {room}</p>
     </>
   );
 }
