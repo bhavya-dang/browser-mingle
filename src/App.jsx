@@ -5,7 +5,7 @@ import supabase from "../supabase";
 function App() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
-  const [lusername, setUsername] = useState(localStorage.getItem("username"));
+  const [lusername, _] = useState(localStorage.getItem("username"));
 
   // Function to send a message
   async function sendMessage() {
@@ -20,7 +20,9 @@ function App() {
       if (error) {
         console.error("Error sending message:", error.message);
       }
-      setInput("");
+
+      setInput('');
+      document.getElementById('input-box').value = '';
     }
   }
 
@@ -61,8 +63,14 @@ function App() {
       <input
         type="text"
         name="message"
+        id="input-box"
         onChange={(e) => setInput(e.target.value)}
-        placeholder="Type your message"
+        onKeyDown={(e) => {
+          if (e.key == "Enter") {
+            sendMessage();
+          }
+        }}
+        placeholder="say something"
       />
       <button onClick={() => sendMessage()}>Send</button>
     </>
