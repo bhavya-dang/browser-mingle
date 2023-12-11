@@ -5,7 +5,7 @@ import supabase from "../supabase";
 function App() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
-  const [lusername, setUsername] = useState("AnonymousUserUWU");
+  const [lusername, setUsername] = useState(localStorage.getItem("username"));
 
   // Function to send a message
   async function sendMessage() {
@@ -65,8 +65,6 @@ function App() {
         placeholder="Type your message"
       />
       <button onClick={() => sendMessage()}>Send</button>
-      <input type="text" name="message" placeholder="set a username" />
-      <button onClick={() => setUsername(e.target.value)}>Set username</button>
     </>
   );
 }
