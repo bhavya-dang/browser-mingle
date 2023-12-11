@@ -3,25 +3,25 @@ import "./App.css";
 import supabase from "../supabase";
 
 function App() {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [lusername, setUsername] = useState("AnonymousUserUWU");
 
   // Function to send a message
   async function sendMessage() {
-      const message = input;
-      if (message.trim() !== '') {
-          const { data, error } = await supabase
-              .from('messages')
-              .insert([
-                  { content: message, timestamp: new Date() },
-              ]);
-  
-          if (error) {
-              console.error('Error sending message:', error.message);
-          }
-        setInput('')
-      }
+    const message = input;
+    if (message.trim() !== "") {
+      const { data, error } = await supabase
+        .from("messages")
+        .insert([
+          { content: message, timestamp: new Date(), username: lusername },
+        ]);
 
+      if (error) {
+        console.error("Error sending message:", error.message);
+      }
+      setInput("");
+    }
   }
 
   async function addMessage(msgobj) {
@@ -30,22 +30,43 @@ function App() {
 
   useEffect(() => {
     const subscription = supabase
-      .channel('messages')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
-        addMessage(payload.new)
-      }).subscribe()
-
+      .channel("messages")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        (payload) => {
+          addMessage(payload.new);
+        }
+      )
+      .subscribe();
   }, []);
 
-  
   return (
     <>
       <div>
-        {messages.map((msg, index) => <p key={index}>{msg.timestamp} | <strong>{msg.content}</strong></p>)}
+        {messages.map((msg, index) => {
+          const dateObject = new Date(msg.timestamp);
+          const formattedTime = `${dateObject.getHours()}:${dateObject.getMinutes()}:${dateObject.getSeconds()}`;
+          return (
+            <p key={index}>
+              <i>
+                {msg.username} at {formattedTime} says{" "}
+              </i>
+              <strong>{msg.content}</strong>
+            </p>
+          );
+        })}
       </div>
 
-      <input type="text" name="message" onChange={(e) => setInput(e.target.value)} placeholder="Type your message" />
+      <input
+        type="text"
+        name="message"
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Type your message"
+      />
       <button onClick={() => sendMessage()}>Send</button>
+      <input type="text" name="message" placeholder="set a username" />
+      <button onClick={() => setUsername(e.target.value)}>Set username</button>
     </>
   );
 }
