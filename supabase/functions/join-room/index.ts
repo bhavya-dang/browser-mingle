@@ -1,6 +1,15 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 Deno.serve(async (req: Request) => {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  }
+
+  // This is needed if you're planning to invoke your function from a browser.
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders })
+  }
   
   // create supabase client
   const authHeader = req.headers.get('Authorization')!
@@ -24,7 +33,7 @@ Deno.serve(async (req: Request) => {
 
     return new Response(
       JSON.stringify({ "room_id": query[0].room_id }),
-      { headers: { "Content-Type": "application/json" } },
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     )
   }
 
@@ -41,7 +50,7 @@ Deno.serve(async (req: Request) => {
 
   return new Response(
     JSON.stringify(data[0]),
-    { headers: { "Content-Type": "application/json" } },
+    { headers: { ...corsHeaders, "Content-Type": "application/json" } },
   )
 })
 

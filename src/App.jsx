@@ -33,12 +33,11 @@ function App() {
   }
 
   async function getRoomId(name) {
-    let { data, error } = await supabase
-      .from('rooms')
-      .select('room_id')
-      .eq('topic', name);
+    const { data, error } = await supabase.functions.invoke('join-room', {
+      body: { topic: name }
+    });
 
-    return data[0].room_id
+    return data.room_id;
   };
 
   useEffect(() => {
