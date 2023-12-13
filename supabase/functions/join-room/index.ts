@@ -1,11 +1,39 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from "../_shared/cors.ts"
+import { Pinecone } from 'https://esm.sh/@pinecone-database/pinecone'
+import { env, pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.5.0'
+
+// Configuration for Deno runtime
+env.useBrowserCache = false;
+env.allowLocalModels = false;
+
+// embedding pipeline
+const pipe = await pipeline(
+  'feature-extraction',
+  'Supabase/gte-small',
+);
+
+async function getEmbedding(input) {
+  const output = await pipe(input, {
+    pooling: 'mean',
+    normalize: true,
+  });
+  
+  return Array.from(output.data);
+};
 
 Deno.serve(async (req: Request) => {
   // This is needed if you're planning to invoke your function from a browser.
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
+
+  // create Pinecone client
+  const pinecone = new Pinecone({
+    apiKey: Deno.env.get("PINECONE_API_KEY"),
+    environment: Deno.env.get("PINECONE_ENVIRONMENT")
+  })
+  const index = pinecone.index("topics");
   
   // create supabase client
   const authHeader = req.headers.get('Authorization')!
@@ -44,8 +72,15 @@ Deno.serve(async (req: Request) => {
 
   console.log("😗", data[0]);
 
+  // insert into Pinecone
+  const embedding = await getEmbedding(params.topic);
+  await index.upsert(
+    [ { id: params.topic, values: embedding } ]
+  )
+
+  let res = data[0];
   return new Response(
-    JSON.stringify(data[0]),
+    JSON.stringify(res),
     { headers: { ...corsHeaders, "Content-Type": "application/json" } },
   )
 })
