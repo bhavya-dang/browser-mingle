@@ -1,5 +1,4 @@
 import App from "./App";
-import { useState } from "react";
 
 export default function Home() {
   function setLocalUsername() {
