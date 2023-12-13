@@ -1,11 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { corsHeaders } from "../_shared/cors.ts"
 
 Deno.serve(async (req: Request) => {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  }
-
   // This is needed if you're planning to invoke your function from a browser.
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
