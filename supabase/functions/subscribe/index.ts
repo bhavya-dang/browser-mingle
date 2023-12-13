@@ -29,7 +29,7 @@ Deno.serve(async (req: Request) => {
       "postgres_changes",
       { event: "INSERT", schema: "public", table: "messages", filter: "room_id=eq."+room, },
       (payload) => {
-        const updatedData = new TextEncoder().encode(`${JSON.stringify(payload.new)}\r\n\r\n`);
+        const updatedData = new TextEncoder().encode(`data: ${JSON.stringify(payload.new)}\r\n\r\n`);
         messages.push(updatedData);
       }
     )
