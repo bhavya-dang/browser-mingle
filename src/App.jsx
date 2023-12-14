@@ -13,18 +13,21 @@ function App() {
   async function sendMessage() {
     const message = input;
     if (message.trim() !== "") {
-      const { data, error } = await supabase
-        .from("messages")
-        .insert([
-          { room_id: room, content: message, timestamp: new Date(), username: lusername },
-        ]);
+      const { data, error } = await supabase.from("messages").insert([
+        {
+          room_id: room,
+          content: message,
+          timestamp: new Date(),
+          username: lusername,
+        },
+      ]);
 
       if (error) {
         console.error("Error sending message:", error.message);
       }
 
-      setInput('');
-      document.getElementById('input-box').value = '';
+      setInput("");
+      document.getElementById("input-box").value = "";
     }
   }
 
@@ -33,19 +36,24 @@ function App() {
   }
 
   async function getRoomId(name) {
-    const { data, error } = await supabase.functions.invoke('join-room', {
-      body: { topic: name }
+    const { data, error } = await supabase.functions.invoke("join-room", {
+      body: { topic: name },
     });
 
     return data.room_id;
-  };
+  }
 
   useEffect(() => {
     const subscription = supabase
       .channel("messages")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages", filter: "room_id=eq."+room, },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: "room_id=eq." + room,
+        },
         (payload) => {
           addMessage(payload.new);
         }
@@ -55,38 +63,50 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className="fixed bottom-10 pb-7 justify-center left-2 right-2  h-auto overflow-y-auto">
         {messages.map((msg, index) => {
           const dateObject = new Date(msg.timestamp);
-          const formattedTime = `${dateObject.getHours()}:${dateObject.getMinutes()}:${dateObject.getSeconds()}`;
+          const formattedTime = `${dateObject.getHours()}:${dateObject.getMinutes()}`;
           return (
-            <p key={index}>
-              <i>
-                {msg.username} at {formattedTime} says{" "}
-              </i>
-              <strong>{msg.content}</strong>
-            </p>
+            <div className="flex items-center mb-2" key={index}>
+              <div className="ml-3 text-left">
+                <div className="text-sm font-medium text-black">
+                  {msg.username}{" "}
+                  <span className="text-gray-400">at {formattedTime}</span>
+                </div>
+                <div className="text-black ">
+                  <span className="font-medium font-small ">{msg.content}</span>
+                </div>
+              </div>
+            </div>
           );
         })}
       </div>
-
-      <input
-        type="text"
-        name="message"
-        id="input-box"
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key == "Enter") {
-            sendMessage();
-          }
-        }}
-        placeholder="say something"
-      />
-      <button onClick={() => sendMessage()}>Send</button>
-
+      <div className="flex fixed bottom-3 left-2 right-2 gap-3 justify-center   ">
+        <input
+          type="text"
+          className="input input-bordered input-primary w-full max-w-xs rounded-md"
+          name="message"
+          id="input-box"
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key == "Enter") {
+              sendMessage();
+            }
+          }}
+          placeholder="say something"
+        />
+        <button
+          className="btn btn-neutral rounded-md"
+          onClick={() => sendMessage()}
+        >
+          Send
+        </button>
+      </div>
       <br />
       <input
         type="text"
+        className="input input-bordered input-primary w-full max-w-xs rounded-md border-2 hover:border-4"
         name="room"
         id="tab-title"
         onChange={(e) => setTopic(e.target.value)}
