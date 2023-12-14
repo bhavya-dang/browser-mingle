@@ -4,7 +4,10 @@ import webExtension from "vite-plugin-web-extension";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), webExtension({
-    disableAutoLaunch: true
-  })],
+  plugins: [
+    react(),
+    webExtension({
+      disableAutoLaunch: false,
+    }),
+  ],
 });
