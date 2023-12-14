@@ -9,10 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@crxjs/vite-plugin": "beta",
     "@supabase/supabase-js": "^2.39.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "vite-plugin-web-extension": "^4.0.1",
+    "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
