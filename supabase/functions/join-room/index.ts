@@ -1,25 +1,13 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from "../_shared/cors.ts"
 import { Pinecone } from 'https://esm.sh/@pinecone-database/pinecone'
-import { env, pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.5.0'
-
-// Configuration for Deno runtime
-env.useBrowserCache = false;
-env.allowLocalModels = false;
-
-// embedding pipeline
-const pipe = await pipeline(
-  'feature-extraction',
-  'Supabase/gte-small',
-);
 
 async function getEmbedding(input) {
-  const output = await pipe(input, {
-    pooling: 'mean',
-    normalize: true,
+  const { data, error } = await supabase.functions.invoke("embed", {
+    body: { input: input },
   });
-  
-  return Array.from(output.data);
+
+  return data.output;
 };
 
 Deno.serve(async (req: Request) => {
