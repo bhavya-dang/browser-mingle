@@ -1,3 +1,2 @@
 // popup.js
-chrome.runtime.sendMessage({ action: 'openNewWindow' });
-
+chrome.runtime.sendMessage({ type: "action", action: 'openNewWindow' });
