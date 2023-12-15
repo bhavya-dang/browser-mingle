@@ -6,6 +6,9 @@ const NavBar = ({ topic, roomId }) => {
       <div className="flex-1 text-ellipsis">
         {topic}
       </div>
+      <p>
+        room ID: {roomId}
+      </p>
     </div>
   );
 };
