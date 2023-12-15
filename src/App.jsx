@@ -44,6 +44,21 @@ const App = () => {
     return data.room_id;
   }
   
+  // hook to request tab data whenever BrowserMingle window is loaded
+  useEffect(() => {
+    chrome.runtime.sendMessage({ type: "window_tab_data_request" }, (response) => {
+      console.log("WIN: received data from background script", response);
+      setTopic(`${response.title} ${response.uri}`)
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("topic:", topic);
+    if (topic !== null && topic !== "") {
+      getRoomId(topic).then((r) => setRoom(r));
+    }
+  }, [topic])
+
   useEffect(() => {
     const subscription = supabase
       .channel("messages")
@@ -61,6 +76,7 @@ const App = () => {
       )
       .subscribe();
   }, [room]);
+
   
   return (
     <>
@@ -71,21 +87,7 @@ const App = () => {
         sendMessage={sendMessage}
       />
   
-      <br />
-      <input
-        type="text"
-        className="input input-bordered input-primary w-full max-w-xs rounded-md border-2 hover:border-4"
-        name="room"
-        id="tab-title"
-        onChange={(e) => setTopic(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key == "Enter") {
-            getRoomId(topic).then((r) => setRoom(r));
-          }
-        }}
-        placeholder="room topic"
-      />
-  
+      <p>room topic: {topic}</p>
       <p>room id: {room}</p>
     </>
   );

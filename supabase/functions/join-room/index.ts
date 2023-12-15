@@ -2,14 +2,6 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from "../_shared/cors.ts"
 import { Pinecone } from 'https://esm.sh/@pinecone-database/pinecone'
 
-async function getEmbedding(input) {
-  const { data, error } = await supabase.functions.invoke("embed", {
-    body: { input: input },
-  });
-
-  return data.output;
-};
-
 Deno.serve(async (req: Request) => {
   // This is needed if you're planning to invoke your function from a browser.
   if (req.method === 'OPTIONS') {
@@ -35,7 +27,7 @@ Deno.serve(async (req: Request) => {
   const params = await req.json()!
 
   // check if room for the topic exists
-  const { data: query, error: e } = await supabase
+  const { data: query, error: err } = await supabase
     .from('rooms')
     .select("*")
     .eq('topic', params.topic);
@@ -61,9 +53,14 @@ Deno.serve(async (req: Request) => {
   console.log("😗", data[0]);
 
   // insert into Pinecone
-  const embedding = await getEmbedding(params.topic);
+  const topic_ascii = params.topic.replace(/[\u{0080}-\u{FFFF}]/gu,""); // strip non-ascii characters
+  console.log(topic_ascii);
+  const { data: d, error: e } = await supabase.functions.invoke("embed", {
+    body: { input: topic_ascii },
+  });
+  const embedding = d.output;
   await index.upsert(
-    [ { id: params.topic, values: embedding } ]
+    [ { id: topic_ascii, values: embedding } ]
   )
 
   let res = data[0];
