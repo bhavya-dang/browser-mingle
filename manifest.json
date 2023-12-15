@@ -5,12 +5,12 @@
   "description": "Discuss what you're browsing!",
 
   "action": {
-    "default_popup": "popup.html"
+    "default_title": "click to open"
   },
 
-  "permissions": [
-    "activeTab"
-  ],
+  "side_panel": {
+    "default_path": "index.html"
+  },
 
   "background": {
     "service_worker": "src/background.js"
@@ -26,5 +26,5 @@
 
   "options_page": "src/options.html",
   
-  "permissions": ["activeTab", "webNavigation"]
+  "permissions": ["activeTab", "webNavigation", "sidePanel", "scripting"]
 }

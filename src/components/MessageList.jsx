@@ -9,11 +9,11 @@ const MessageList = ({ messages }) => {
         return (
           <div className="flex items-center mb-2" key={index}>
             <div className="ml-3 text-left">
-              <div className="text-sm font-bold text-white">
+              <div className="text-sm font-bold text-black">
                 {msg.username}{" "}
                 <span className="text-gray-400">{formattedTime}</span>
               </div>
-              <div className="text-white">
+              <div className="text-black">
                 <span className="font-medium">{msg.content}</span>
               </div>
             </div>

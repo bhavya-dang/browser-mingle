@@ -5,7 +5,7 @@ const MessageInput = ({ input, setInput, sendMessage }) => {
     <div className="flex fixed bottom-3 left-2 right-2 gap-3 justify-center">
       <input
         type="text"
-        className="input input-ghost w-full max-w-xs rounded-md"
+        className="input input-ghost w-full max-w-xs outline-none"
         name="message"
         id="input-box"
         value={input}
