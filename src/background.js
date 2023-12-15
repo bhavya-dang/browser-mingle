@@ -16,29 +16,28 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         focused: true,
         width: 500,
       }); // creating window from tab
+
+      console.log("BG: created BrowserMingle tab with ID", createdTabId);
     });
   }
 
-  if (request.type === "contentscript_tab_data_send") {
+  if (request.type === "contentscript_tab_data_send") { // receive new tab data
     console.log("BG: received data from content script:", request.data);
     tabData = request.data;
   }
 
-  if (request.type === "window_closed") {
-    console.log("BG: window close detected")
-    isWindowCreated = false;
-  }
-
-  if (request.type === "window_tab_data_request") {
+  if (request.type === "window_tab_data_request") { // send tabData to window when it requests it
     sendResponse(tabData)
   }
 
-  if (request.type === "contentscript_tab_closed") {
+  if (request.type === "contentscript_tab_closed" && createdTabId) { // when content script detects browser tab close, close the chat window too
+    let createdTabId_tmp_for_log = createdTabId;
     chrome.tabs.remove(createdTabId, function() {
-      console.log('Closed BrowserMingle tab with ID:', createdTabId);
+      console.log('Closed BrowserMingle tab with ID:', createdTabId_tmp_for_log);
     });
 
-    isWindowCreated = false;
+    isWindowCreated = false; // window closed, ready to create new one
+    createdTabId = null;
 
     sendResponse({ message: "destroyed Extension window :3" });
   }
