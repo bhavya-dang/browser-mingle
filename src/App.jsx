@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MessageList from "./components/MessageList";
 import MessageInput from "./components/MessageInput";
+import NavBar from "./components/NavBar";
 import supabase from "../supabase";
 
 const App = () => {
@@ -76,19 +77,17 @@ const App = () => {
       )
       .subscribe();
   }, [room]);
-
   
   return (
     <>
-      <MessageList messages={messages} />
+      <NavBar className="bg-primary" topic={topic} roomId={room} />
+
+      <MessageList messages={messages} username={lusername} />
       <MessageInput
         input={input}
         setInput={setInput}
         sendMessage={sendMessage}
       />
-  
-      <p>room topic: {topic}</p>
-      <p>room id: {room}</p>
     </>
   );
 }
