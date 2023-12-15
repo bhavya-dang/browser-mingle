@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     webExtension({
       disableAutoLaunch: true,
-      additionalInputs: ["index.html"]
+      additionalInputs: ["index.html"],
     }),
   ],
 });
