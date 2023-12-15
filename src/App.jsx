@@ -10,7 +10,7 @@ const App = () => {
   const [lusername, _] = useState(localStorage.getItem("username"));
   const [topic, setTopic] = useState("");
   const [room, setRoom] = useState("");
-  
+
   // Function to send a message
   async function sendMessage() {
     const message = input;
@@ -31,6 +31,19 @@ const App = () => {
       setInput("");
       document.getElementById("input-box").value = "";
     }
+  }
+
+  // function to send a reaction
+  async function sendReaction() {
+    const { data, error } = await supabase.from("messages").insert([
+      {
+        room_id: room,
+        content: "😗",
+        type: "reaction",
+        timestamp: new Date(),
+        username: lusername,
+      },
+    ]);
   }
   
   async function addMessage(msgobj) {
@@ -72,8 +85,14 @@ const App = () => {
           filter: "room_id=eq." + room,
         },
         (payload) => {
-          addMessage(payload.new);
+
+          if (payload.new.type === "reaction") {
+            alert("reaction");
+          } else {
+            addMessage(payload.new);
+          }
         }
+
       )
       .subscribe();
   }, [room]);
@@ -88,6 +107,10 @@ const App = () => {
         setInput={setInput}
         sendMessage={sendMessage}
       />
+
+      <div>
+        <button className="button" onClick={sendReaction}>send reaction</button>
+      </div>
     </>
   );
 }
