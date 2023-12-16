@@ -7,14 +7,16 @@ const MessageList = ({ messages }) => {
         const dateObject = new Date(msg.timestamp);
         const formattedTime = `${dateObject.getHours()}:${dateObject.getMinutes()}`;
         return (
-          <div className="flex items-center mb-2 glass rounded-md p-2" key={index}>
+          <div className="flex items-center mb-2 rounded-md p-2" key={index}>
             <div className="ml-3 text-left">
-              <div className="text-sm font-bold text-black">
-                {msg.username}{" "}
-                <span className="text-gray-400">{formattedTime}</span>
+              <div className="flex ">
+                <div className="text-base font-bold text-accent mr-2 ">
+                  {msg.username}
+                </div>
+                <div className="text-ghost text-base ">{formattedTime}</div>
               </div>
-              <div className="text-black">
-                <span className="font-medium">{msg.content}</span>
+              <div>
+                <span className="text-lg text-ghost">{msg.content}</span>
               </div>
             </div>
           </div>
@@ -25,4 +27,3 @@ const MessageList = ({ messages }) => {
 };
 
 export default MessageList;
-

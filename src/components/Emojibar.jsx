@@ -19,7 +19,7 @@ const EmojiBar = ({ room, lusername }) => {
   const emojis = [
     {
       name: "anya-scared",
-      identifier: "2101-anya-7.png"
+      identifier: "2101-anya-7.png",
     },
     {
       name: "pepecry",
@@ -41,18 +41,26 @@ const EmojiBar = ({ room, lusername }) => {
 
   return (
     <>
-      <ul className="menu menu-vertical bg-gray rounded-box mt-6 ml-3 fixed right-2 bottom-10 mb-5 ">
-        {emojis.map((emoji) => (
-          <li key={emoji.name}>
-            <a onClick={() => sendReaction(emoji.name)}>
-              <img
-                src={`https://cdn3.emoji.gg/emojis/${emoji.identifier}`}
-                className="h-5 w-5"
-              ></img>
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div className="dropdown dropdown-top">
+        <div tabIndex={0} role="button" className="btn m-1">
+          😈
+        </div>
+        <ul
+          tabIndex={0}
+          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          {emojis.map((emoji) => (
+            <li key={emoji.name}>
+              <a onClick={() => sendReaction(emoji.name)}>
+                <img
+                  src={`https://cdn3.emoji.gg/emojis/${emoji.identifier}`}
+                  className="h-5 w-5"
+                ></img>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 };

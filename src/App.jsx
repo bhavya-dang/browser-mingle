@@ -117,7 +117,7 @@ const App = () => {
                           <p style="font-size: 40%;">${payload.new.username}</p>
                         </div>`,
               number: 1,
-              size: [4,5],
+              size: [4, 5],
               repeat: 1,
             });
           } else {
@@ -130,18 +130,23 @@ const App = () => {
 
   return (
     <>
-        <img alt="" className="bg-[url(/img/abstract1.jpg)] w-full h-full object-cover filter brightness-75 blur-lg" width="1308" />
+      <img
+        alt=""
+        className="bg-[url(https://www.openbin.dev/_next/static/media/grid.41943b4a.svg)] w-full h-full object-cover filter brightness-75 blur-lg"
+        width="1308"
+      />
 
-    {/*<NavBar className="bg-primary" topic={topic} roomId={room} /> */}
+      {/*<NavBar className="bg-primary" topic={topic} roomId={room} /> */}
 
-        <MessageList messages={messages} username={lusername} />
-        <MessageInput
-          input={input}
-          setInput={setInput}
-          sendMessage={sendMessage}
-          room={room}
-        />
-        <EmojiBar room={room} lusername={lusername} />
+      <MessageList messages={messages} username={lusername} />
+      <MessageInput
+        input={input}
+        setInput={setInput}
+        sendMessage={sendMessage}
+        room={room}
+        lusername={lusername}
+      />
+      {/* <EmojiBar room={room} lusername={lusername} /> */}
 
       {/* <div>
         <button className="button" onClick={sendReaction}>send reaction</button>

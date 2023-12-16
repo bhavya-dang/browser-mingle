@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     webExtension({
-      disableAutoLaunch: true,
+      disableAutoLaunch: false,
       additionalInputs: ["index.html"],
     }),
   ],

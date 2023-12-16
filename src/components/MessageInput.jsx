@@ -1,6 +1,7 @@
 import React from "react";
+import EmojiBar from "./Emojibar";
 
-const MessageInput = ({ input, setInput, sendMessage, room }) => {
+const MessageInput = ({ input, setInput, sendMessage, room, lusername }) => {
   return (
     <div className="flex fixed bottom-3 left-2 right-2 gap-3 justify-center">
       <input
@@ -16,16 +17,17 @@ const MessageInput = ({ input, setInput, sendMessage, room }) => {
             sendMessage();
           }
         }}
-        placeholder={(room) ? "say something" : "joining room..."}
-        disabled={(room) ? false : true}
+        placeholder={room ? "say something" : "joining room..."}
+        disabled={room ? false : true}
       />
       <button
-        className="btn glass rounded-full"
-        disabled={(room) ? false : true}
+        className="btn btn-accent "
+        disabled={room ? false : true}
         onClick={() => sendMessage()}
       >
         Send
       </button>
+      <EmojiBar lusername={lusername} room={room}></EmojiBar>
     </div>
   );
 };
