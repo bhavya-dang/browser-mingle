@@ -1,16 +1,12 @@
 import React from "react";
 import Navbtn from "./Navbtn";
 
-const NavBar = ({ topic, roomId }) => {
+const NavBar = ({ topic, similarRooms, setTopic }) => {
   return (
     <div>
-      <div className="navbar bg-accent-100">
-        <div className="navbar-start">
-          <Navbtn></Navbtn>
-        </div>
-        <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">{topic}</a>
-        </div>
+       <div className="flex gap-3">
+        <Navbtn topic={topic} similarRooms={similarRooms} setTopic={setTopic}></Navbtn>
+        <a className="btn btn-ghost text-xl">{topic}</a>
       </div>
     </div>
   );

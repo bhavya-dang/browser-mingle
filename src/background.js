@@ -3,28 +3,26 @@ let tabData;
 
 let createdTabId;
 
+let activeTabId = null;
+
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch((error) => console.error(error));
 
+//chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
+//  if (!activeTabId) return;
+//  // Enables the side panel only on tab ID
+//  if (tab.id !== activeTabId) {
+//    console.log("BG: tab changed, closing sidePanel");
+//    // Disables the side panel on all other sites
+//    await chrome.sidePanel.setOptions({
+//      tabId,
+//      enabled: false
+//    });
+//  }
+//});
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  //if (!isWindowCreated && request.type === "action" && request.action === "openNewWindow") {
-  //  isWindowCreated = true;
-
-  //  chrome.tabs.create({ url: "index.html", active: false }, (newTab) => {
-  //    createdTabId = newTab.id; // storing extension tab ID
-
-  //    chrome.windows.create({
-  //      tabId: newTab.id,
-  //      type: "popup",
-  //      focused: true,
-  //      width: 500,
-  //    }); // creating window from tab
-
-  //    console.log("BG: created BrowserMingle tab with ID", createdTabId);
-  //  });
-  //}
 
   if (request.type === "contentscript_tab_data_send") { // receive new tab data
     console.log("BG: received data from content script:", request.data);
@@ -33,17 +31,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   if (request.type === "window_tab_data_request") { // send tabData to window when it requests it
     sendResponse(tabData)
+
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+     var activeTab = tabs[0];
+     activeTabId = activeTab.id; // or do whatever you need
+    });
   }
 
-  //if (request.type === "contentscript_tab_closed" && createdTabId) { // when content script detects browser tab close, close the chat window too
-  //  let createdTabId_tmp_for_log = createdTabId;
-  //  chrome.tabs.remove(createdTabId, function() {
-  //    console.log('Closed BrowserMingle tab with ID:', createdTabId_tmp_for_log);
-  //  });
-
-  //  isWindowCreated = false; // window closed, ready to create new one
-  //  createdTabId = null;
-
-  //  sendResponse({ message: "destroyed Extension window :3" });
-  //}
 });

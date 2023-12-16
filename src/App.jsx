@@ -12,6 +12,8 @@ const App = () => {
   const [topic, setTopic] = useState("");
   const [room, setRoom] = useState("");
 
+  const [similarRooms, setsimilarRooms] = useState([]);
+
   // Function to send a message
   async function sendMessage() {
     const message = input;
@@ -74,7 +76,18 @@ const App = () => {
     console.log("topic:", topic);
     if (topic !== null && topic !== "") {
       getRoomId(topic).then((r) => setRoom(r));
+
+      // set similar rooms
+      async function update_similar_rooms() {
+        const { data, error } = await supabase.functions.invoke("vectorquery", {
+          body: { topic: topic }
+        });
+        setsimilarRooms(data.topics);
+      };
+      update_similar_rooms();
+
     }
+
   }, [topic]);
 
   useEffect(() => {
@@ -135,7 +148,7 @@ const App = () => {
         width="1308"
       />
 
-      <NavBar topic={topic} roomId={room} />
+      <NavBar topic={topic} similarRooms={similarRooms} setTopic={setTopic} className="m-6" />
       <MessageList messages={messages} username={lusername} />
       <MessageInput
         input={input}

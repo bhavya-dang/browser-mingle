@@ -1,21 +1,12 @@
-export default function Navbtn() {
-  const room_id = 123;
-  const similarRooms = [
-    {
-      name: "room1",
-      index: 1,
-    },
-    {
-      name: "room2",
-      index: 2,
-    },
-    {
-      name: "room3",
-      index: 3,
-    },
-  ];
+export default function Navbtn({ topic, similarRooms, setTopic }) {
+
+  function changeRoom(room_topic) {
+    console.log("changed new topic in Navbtn", room_topic);
+    setTopic(room_topic);
+  }
+
   return (
-    <div className="dropdown fixed top-2 left-2">
+    <div className="dropdown dropdown-hover">
       <div tabIndex={0} role="button" className="btn btn-info">
         Rooms
       </div>
@@ -24,12 +15,19 @@ export default function Navbtn() {
         className="dropdown-content z-[1] card card-compact w-64 p-2 shadow bg-secondary text-primary-content"
       >
         <div className="card-body">
-          <p className="card-title">Current Room: {room_id}</p>
+          <p className="card-title">Current Room: {topic}</p>
           <div>
             Similar rooms:
-            {similarRooms.map((room, index) => {
-              return <p key={index}>{room.name}</p>;
-            })}
+            {
+              similarRooms.map((room, index) => {
+                return (
+                  <div>
+                    <p>{room}</p>
+                    <button key={index} onClick={() => changeRoom(room)}>set</button>
+                  </div>
+                )
+              })
+            }
           </div>
           <button className="btn btn-error"> leave Room</button>
         </div>
