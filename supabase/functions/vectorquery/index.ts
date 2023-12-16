@@ -1,26 +1,17 @@
-/* query Vector DB for similar topics and return corresponding room IDs from supabase */
+/* query Vector DB for similar topics and return corresponding room topics and IDs from supabase */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { Pinecone } from 'https://esm.sh/@pinecone-database/pinecone'
-import { env, pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.5.0'
-
-// Configuration for Deno runtime
-env.useBrowserCache = false;
-env.allowLocalModels = false;
-
-// embedding pipeline
-const pipe = await pipeline(
-  'feature-extraction',
-  'Supabase/gte-small',
-);
 
 async function getEmbedding(input) {
-  const output = await pipe(input, {
-    pooling: 'mean',
-    normalize: true,
+  const topic_ascii = input.replace(/[\u{0080}-\u{FFFF}]/gu,""); // strip non-ascii characters
+
+  const { data: d, error: e } = await supabase.functions.invoke("embed", {
+    body: { input: topic_ascii },
   });
+  const embedding = d.output;
   
-  return Array.from(output.data);
+  return embedding
 };
 
 Deno.serve(async (req) => {
@@ -51,6 +42,7 @@ Deno.serve(async (req) => {
     includeValues: true,
   });
 
+  // get topic names from vector IDs
   const topic_names = queryResponse.matches.map(obj => obj.id);
 
   const res = topic_names;
