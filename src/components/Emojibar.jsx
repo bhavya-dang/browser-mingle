@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import supabase from "../../supabase";
 
 const EmojiBar = ({ room, lusername }) => {
@@ -11,7 +11,7 @@ const EmojiBar = ({ room, lusername }) => {
     '😴',
     '⚡'
   ];
-  const [displayedEmoji, setdisplayedEmoji] = useState(emoji_rand[Math.floor(Math.random() * emoji_rand.length)]);
+  const [displayedEmoji, _] = useState(emoji_rand[Math.floor(Math.random() * emoji_rand.length)]);
 
   // function to send a reaction
   async function sendReaction(emoji) {
@@ -49,11 +49,6 @@ const EmojiBar = ({ room, lusername }) => {
     },
   ];
 
-  
-  setInterval(() => {
-    setdisplayedEmoji(emoji_rand[Math.floor(Math.random() * emoji_rand.length)])
-  }, 5000)
-
   return (
     <>
       <div className="dropdown dropdown-top dropdown-hover">
@@ -66,7 +61,7 @@ const EmojiBar = ({ room, lusername }) => {
         >
           {emojis.map((emoji) => (
             <li key={emoji.name}>
-              <a onClick={() => {sendReaction(emoji.name)}}>
+              <a onClick={() => sendReaction(emoji.name) }>
                 <img
                   src={`https://cdn3.emoji.gg/emojis/${emoji.identifier}`}
                   className="h-5 w-5"
