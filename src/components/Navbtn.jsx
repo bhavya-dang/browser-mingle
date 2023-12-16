@@ -15,21 +15,17 @@ export default function Navbtn({ topic, similarRooms, setTopic }) {
         className="dropdown-content z-[1] card card-compact w-64 p-2 shadow bg-secondary text-primary-content"
       >
         <div className="card-body">
-          <p className="card-title">Current Room: {topic}</p>
-          <div>
-            Similar rooms:
-            {
-              similarRooms.map((room, index) => {
-                return (
-                  <div>
-                    <p>{room}</p>
-                    <button key={index} onClick={() => changeRoom(room)}>set</button>
-                  </div>
-                )
-              })
-            }
-          </div>
-          <button className="btn btn-error"> leave Room</button>
+          Similar Rooms:
+          {
+            similarRooms.map((room, index) => {
+              return (
+                <div>
+                  <p>{room}</p>
+                  <button key={index} onClick={() => changeRoom(room)}>set</button>
+                </div>
+              )
+            })
+          }
         </div>
       </div>
     </div>

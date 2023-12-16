@@ -14,6 +14,7 @@ const App = () => {
 
   const [similarRooms, setsimilarRooms] = useState([]);
 
+
   // Function to send a message
   async function sendMessage() {
     const message = input;
@@ -21,7 +22,7 @@ const App = () => {
       const { data, error } = await supabase.from("messages").insert([
         {
           room_id: room,
-          content: message,
+          content: message.slice(0, 512),
           timestamp: new Date(),
           username: lusername,
         },
@@ -36,19 +37,6 @@ const App = () => {
     }
   }
 
-  // function to send a reaction
-  // async function sendReaction() {
-  //   const { data, error } = await supabase.from("messages").insert([
-  //     {
-  //       room_id: room,
-  //       content: "😗",
-  //       type: "reaction",
-  //       timestamp: new Date(),
-  //       username: lusername,
-  //     },
-  //   ]);
-  // }
-
   async function addMessage(msgobj) {
     setMessages((prevMessages) => [...prevMessages, msgobj]);
   }
@@ -59,6 +47,18 @@ const App = () => {
     });
 
     return data.room_id;
+  }
+
+  function insertEgg(url, username) {
+    floating({
+      content: `<div style="display: block;">
+                  <img src=${url}>
+                  <p style="font-size: 40%;">${username}</p>
+                </div>`,
+      number: 1,
+      size: [5, 6],
+      repeat: 1,
+    });
   }
 
   // hook to request tab data whenever BrowserMingle window is loaded
@@ -132,6 +132,15 @@ const App = () => {
               size: [4, 5],
               repeat: 1,
             });
+          } else if (payload.new.content.trim() === ":q")  {
+            insertEgg("https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/vim-linux.gif", payload.new.username);
+            addMessage(payload.new);
+          } else if (payload.new.content.includes("big brain")) {
+            insertEgg("https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/mind-blown-mind-explosion.gif", payload.new.username);
+            addMessage(payload.new);
+          } else if (payload.new.content.includes("supabase")) {
+            insertEgg("https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/supabase.png", payload.new.username);
+            addMessage(payload.new);
           } else {
             addMessage(payload.new);
           }
@@ -142,21 +151,28 @@ const App = () => {
 
   return (
     <>
+      {/*
       <img
         alt=""
         className="bg-[url(https://www.openbin.dev/_next/static/media/grid.41943b4a.svg)] w-full h-full object-cover filter brightness-75 blur-lg"
         width="1308"
       />
+      */}
 
-      <NavBar topic={topic} similarRooms={similarRooms} setTopic={setTopic} className="m-6" />
-      <MessageList messages={messages} username={lusername} />
-      <MessageInput
-        input={input}
-        setInput={setInput}
-        sendMessage={sendMessage}
-        room={room}
-        lusername={lusername}
-      />
+      <div className="w-screen">
+        <div className="p-5">
+          <NavBar topic={topic} similarRooms={similarRooms} setTopic={setTopic} className="m-6" />
+        </div>
+        <MessageList messages={messages} username={lusername} />
+        <MessageInput
+          input={input}
+          setInput={setInput}
+          sendMessage={sendMessage}
+          room={room}
+          lusername={lusername}
+        />
+      </div>
+
       {/* <EmojiBar room={room} lusername={lusername} /> */}
 
       {/* <div>
