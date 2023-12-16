@@ -112,9 +112,12 @@ const App = () => {
               // code block
             }
             floating({
-              content: `<img src=${emoji}> <p>${payload.new.username}</p>`,
+              content: `<div style="display: block;">
+                          <img src=${emoji} alt=${payload.new.content}>
+                          <p style="font-size: 40%;">${payload.new.username}</p>
+                        </div>`,
               number: 1,
-              size: [4, 5],
+              size: [4,5],
               repeat: 1,
             });
           } else {

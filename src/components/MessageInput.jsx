@@ -8,6 +8,7 @@ const MessageInput = ({ input, setInput, sendMessage, room }) => {
         className="input input-bordered w-full max-w-xs outline-none"
         name="message"
         id="input-box"
+        autocomplete="off"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => {
