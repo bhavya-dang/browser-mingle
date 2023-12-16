@@ -1,20 +1,15 @@
 /* query Vector DB for similar topics and return corresponding room topics and IDs from supabase */
 
+import { corsHeaders } from "../_shared/cors.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { Pinecone } from 'https://esm.sh/@pinecone-database/pinecone'
 
-async function getEmbedding(input) {
-  const topic_ascii = input.replace(/[\u{0080}-\u{FFFF}]/gu,""); // strip non-ascii characters
-
-  const { data: d, error: e } = await supabase.functions.invoke("embed", {
-    body: { input: topic_ascii },
-  });
-  const embedding = d.output;
-  
-  return embedding
-};
-
 Deno.serve(async (req) => {
+  // This is needed if you're planning to invoke your function from a browser.
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders })
+  }
+
   // create Pinecone client
   const pinecone = new Pinecone({
     apiKey: Deno.env.get("PINECONE_API_KEY"),
@@ -33,12 +28,18 @@ Deno.serve(async (req) => {
   // get request body
   const params = await req.json()!
 
-  // query pinecone with embedding for topic
-  const embedding = await getEmbedding(params.topic);
+  // get embedding
+  const topic_ascii = params.topic.replace(/[\u{0080}-\u{FFFF}]/gu,""); // strip non-ascii characters
 
+  const { data: d, error: e } = await supabase.functions.invoke("embed", {
+    body: { input: topic_ascii },
+  });
+  const embedding = d.output;
+
+  // query pinecone with embedding for topic
   const queryResponse = await index.query({
     vector: embedding,
-    topK: 1,
+    topK: 3,
     includeValues: true,
   });
 
@@ -48,7 +49,7 @@ Deno.serve(async (req) => {
   const res = topic_names;
   return new Response(
     JSON.stringify({topics: res}),
-    { headers: { "Content-Type": "application/json" } },
+    { headers: { ...corsHeaders, "Content-Type": "application/json" } },
   )
 })
 
