@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import MessageList from "./components/MessageList";
 import MessageInput from "./components/MessageInput";
-import NavBar from "./components/NavBar";
-import EmojiBar from "./components/Emojibar";
 import supabase from "../supabase";
 import floating from "floating.js";
+import NavBar from "./components/NavBar";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -36,17 +35,17 @@ const App = () => {
   }
 
   // function to send a reaction
-  async function sendReaction() {
-    const { data, error } = await supabase.from("messages").insert([
-      {
-        room_id: room,
-        content: "😗",
-        type: "reaction",
-        timestamp: new Date(),
-        username: lusername,
-      },
-    ]);
-  }
+  // async function sendReaction() {
+  //   const { data, error } = await supabase.from("messages").insert([
+  //     {
+  //       room_id: room,
+  //       content: "😗",
+  //       type: "reaction",
+  //       timestamp: new Date(),
+  //       username: lusername,
+  //     },
+  //   ]);
+  // }
 
   async function addMessage(msgobj) {
     setMessages((prevMessages) => [...prevMessages, msgobj]);
@@ -136,8 +135,7 @@ const App = () => {
         width="1308"
       />
 
-      {/*<NavBar className="bg-primary" topic={topic} roomId={room} /> */}
-
+      <NavBar topic={topic} roomId={room} />
       <MessageList messages={messages} username={lusername} />
       <MessageInput
         input={input}
