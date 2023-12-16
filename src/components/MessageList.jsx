@@ -16,7 +16,7 @@ const MessageList = ({ messages }) => {
                 <div className="text-ghost text-base ">{formattedTime}</div>
               </div>
               <div>
-                <span className="text-lg text-ghost">{msg.content}</span>
+                <span className="text-base text-ghost">{msg.content}</span>
               </div>
             </div>
           </div>

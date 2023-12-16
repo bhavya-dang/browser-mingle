@@ -2,7 +2,17 @@ import React, { useState } from "react";
 import supabase from "../../supabase";
 
 const EmojiBar = ({ room, lusername }) => {
-  const [selectedEmoji, setSelectedEmoji] = useState("");
+  // array of random emojis for fun (tm)
+  const emoji_rand = [
+    '🥰',
+    '🤣',
+    '💪',
+    '🥳',
+    '😴',
+    '⚡'
+  ];
+  const [displayedEmoji, setdisplayedEmoji] = useState(emoji_rand[Math.floor(Math.random() * emoji_rand.length)]);
+
   // function to send a reaction
   async function sendReaction(emoji) {
     const { data, error } = await supabase.from("messages").insert([
@@ -39,19 +49,24 @@ const EmojiBar = ({ room, lusername }) => {
     },
   ];
 
+  
+  setInterval(() => {
+    setdisplayedEmoji(emoji_rand[Math.floor(Math.random() * emoji_rand.length)])
+  }, 5000)
+
   return (
     <>
-      <div className="dropdown dropdown-top">
-        <div tabIndex={0} role="button" className="btn m-1 btn-success">
-          😈
+      <div className="dropdown dropdown-top dropdown-hover">
+        <div tabIndex={0} role="button" className="btn btn-warning" disabled={room ? false : true}>
+          {displayedEmoji}
         </div>
         <ul
           tabIndex={0}
-          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-5"
+          className="dropdown-content menu p-1 shadow bg-base-100 rounded-box w-20"
         >
           {emojis.map((emoji) => (
             <li key={emoji.name}>
-              <a onClick={() => sendReaction(emoji.name)}>
+              <a onClick={() => {sendReaction(emoji.name)}}>
                 <img
                   src={`https://cdn3.emoji.gg/emojis/${emoji.identifier}`}
                   className="h-5 w-5"
