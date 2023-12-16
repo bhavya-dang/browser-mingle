@@ -66,7 +66,7 @@ const App = () => {
       { type: "window_tab_data_request" },
       (response) => {
         console.log("WIN: received data from background script", response);
-        setTopic(`${response.title} ${response.uri}`);
+        setTopic(response.title);
       }
     );
   }, []);
