@@ -7,7 +7,7 @@ const MessageList = ({ messages }) => {
         const dateObject = new Date(msg.timestamp);
         const formattedTime = `${dateObject.getHours()}:${dateObject.getMinutes()}`;
         return (
-          <div className="flex items-center mb-2" key={index}>
+          <div className="flex items-center mb-2 glass rounded-md p-2" key={index}>
             <div className="ml-3 text-left">
               <div className="text-sm font-bold text-black">
                 {msg.username}{" "}

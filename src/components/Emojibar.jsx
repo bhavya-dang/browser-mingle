@@ -18,6 +18,10 @@ const EmojiBar = ({ room, lusername }) => {
 
   const emojis = [
     {
+      name: "anya-scared",
+      identifier: "2101-anya-7.png"
+    },
+    {
       name: "pepecry",
       identifier: "4153-pepe-cry.png",
     },
@@ -34,9 +38,10 @@ const EmojiBar = ({ room, lusername }) => {
       identifier: "4548-miku-party.png",
     },
   ];
+
   return (
     <>
-      <ul className="menu menu-vertical bg-gray- rounded-box mt-6 ml-3 fixed right-2 bottom-10 mb-5 ">
+      <ul className="menu menu-vertical bg-gray rounded-box mt-6 ml-3 fixed right-2 bottom-10 mb-5 ">
         {emojis.map((emoji) => (
           <li key={emoji.name}>
             <a onClick={() => sendReaction(emoji.name)}>

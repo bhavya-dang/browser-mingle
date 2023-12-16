@@ -93,6 +93,9 @@ const App = () => {
           if (payload.new.type === "reaction") {
             let emoji;
             switch (payload.new.content) {
+              case "anya-scared":
+                emoji = "https://cdn3.emoji.gg/emojis/2101-anya-7.png";
+                break;
               case "pepecry":
                 emoji = "https://cdn3.emoji.gg/emojis/4153-pepe-cry.png";
                 break;
@@ -124,15 +127,18 @@ const App = () => {
 
   return (
     <>
-      <NavBar className="bg-primary" topic={topic} roomId={room} />
+        <img alt="" className="bg-[url(/img/abstract1.jpg)] w-full h-full object-cover filter brightness-75 blur-lg" width="1308" />
 
-      <MessageList messages={messages} username={lusername} />
-      <MessageInput
-        input={input}
-        setInput={setInput}
-        sendMessage={sendMessage}
-      />
-      <EmojiBar room={room} lusername={lusername} />
+    {/*<NavBar className="bg-primary" topic={topic} roomId={room} /> */}
+
+        <MessageList messages={messages} username={lusername} />
+        <MessageInput
+          input={input}
+          setInput={setInput}
+          sendMessage={sendMessage}
+          room={room}
+        />
+        <EmojiBar room={room} lusername={lusername} />
 
       {/* <div>
         <button className="button" onClick={sendReaction}>send reaction</button>
