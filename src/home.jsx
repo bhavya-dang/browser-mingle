@@ -15,7 +15,7 @@ export default function Home() {
       <>
         <div className="flex left-2 right-2 justify-center items-center h-screen">
           <div className="card w-96 glass mx-8">
-            <figure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="car!"/></figure>
+            <figure><img src="https://cdn.britannica.com/15/241115-050-41EBA94D/Wanderer-Above-the-Sea-Fog-Caspar-David-Friedrich-Hamburger-Kunsthalle-Hamburg-Germany.jpg" alt="'Wanderer Above The Sea Of Fog' by Caspar David Friedrich"/></figure>
             <div className="card-body">
               <h2 className="card-title">Welcome to BrowserMingle</h2>
               <p>To get started, choose a username</p>

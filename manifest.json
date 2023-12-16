@@ -24,6 +24,13 @@
     }
   ],
 
+  "web_accessible_resources": [
+    {
+      "resources": [ "assets/*" ],
+      "matches": [ "<all_urls>" ]
+    }
+  ],
+
   "options_page": "src/options.html",
   
   "permissions": ["activeTab", "webNavigation", "sidePanel", "scripting"]
