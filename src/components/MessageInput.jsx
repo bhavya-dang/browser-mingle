@@ -20,6 +20,7 @@ const MessageInput = ({ input, setInput, sendMessage, room, lusername }) => {
         placeholder={room ? "say something" : "joining room..."}
         disabled={room ? false : true}
       />
+      <EmojiBar lusername={lusername} room={room}></EmojiBar>
       <button
         className="btn btn-accent "
         disabled={room ? false : true}
@@ -27,7 +28,6 @@ const MessageInput = ({ input, setInput, sendMessage, room, lusername }) => {
       >
         Send
       </button>
-      <EmojiBar lusername={lusername} room={room}></EmojiBar>
     </div>
   );
 };
