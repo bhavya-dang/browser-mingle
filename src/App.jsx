@@ -161,7 +161,7 @@ const App = () => {
 
       <div className="h-full relative">
 
-        <div className="p-4 w-full z-10 fixed top-0 z-10 bg-neutral-content">
+        <div className="p-4 w-full z-10 fixed top-0 z-10 glass">
           <NavBar topic={topic} similarRooms={similarRooms} setTopic={setTopic} />
         </div>
 
