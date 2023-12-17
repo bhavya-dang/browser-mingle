@@ -159,18 +159,25 @@ const App = () => {
       />
       */}
 
-      <div className="w-screen">
-        <div className="p-5">
-          <NavBar topic={topic} similarRooms={similarRooms} setTopic={setTopic} className="m-6" />
+      <div className="h-full relative">
+
+        <div className="p-4 w-full z-10 fixed top-0 z-10 bg-neutral-content">
+          <NavBar topic={topic} similarRooms={similarRooms} setTopic={setTopic} />
         </div>
-        <MessageList messages={messages} username={lusername} />
-        <MessageInput
-          input={input}
-          setInput={setInput}
-          sendMessage={sendMessage}
-          room={room}
-          lusername={lusername}
-        />
+
+        <div className="overflow-auto p-4 my-16">
+          <MessageList messages={messages} username={lusername} />
+        </div>
+
+        <div className="p-4 w-full z-10 fixed bottom-0 z-10 flex justify-center">
+          <MessageInput
+            input={input}
+            setInput={setInput}
+            sendMessage={sendMessage}
+            room={room}
+            lusername={lusername}
+          />
+        </div>
       </div>
 
       {/* <EmojiBar room={room} lusername={lusername} /> */}

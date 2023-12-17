@@ -2,7 +2,7 @@ import React from "react";
 
 const MessageList = ({ messages }) => {
   return (
-    <div className="fixed bottom-10 pb-7 justify-center left-2 right-2 h-auto overflow-y-auto">
+    <div>
       {messages.map((msg, index) => {
         const dateObject = new Date(msg.timestamp);
         const formattedTime = `${dateObject.getHours()}:${dateObject.getMinutes()}`;
@@ -10,7 +10,7 @@ const MessageList = ({ messages }) => {
           <div className="flex items-center mb-2 rounded-md p-2" key={index}>
             <div className="ml-3 text-left">
               <div className="flex ">
-                <div className="text-base font-bold text-accent mr-2 ">
+                <div className="text-base font-bold text-accent mr-2">
                   {msg.username}
                 </div>
                 <div className="text-ghost text-base ">{formattedTime}</div>

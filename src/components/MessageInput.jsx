@@ -3,7 +3,7 @@ import EmojiBar from "./Emojibar";
 
 const MessageInput = ({ input, setInput, sendMessage, room, lusername }) => {
   return (
-    <div className="flex fixed bottom-3 left-2 right-2 gap-3 justify-center">
+    <div className="flex bottom-3 gap-3">
       <input
         type="text"
         className="input input-bordered w-full max-w-xs outline-none"

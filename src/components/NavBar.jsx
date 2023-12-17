@@ -3,11 +3,9 @@ import Navbtn from "./Navbtn";
 
 const NavBar = ({ topic, similarRooms, setTopic }) => {
   return (
-    <div>
-       <div className="flex gap-3 w-auto">
-        <Navbtn topic={topic} similarRooms={similarRooms} setTopic={setTopic}></Navbtn>
-        <p className="btn btn-ghost text-xl break-all">{topic}</p>
-      </div>
+    <div className="flex">
+      <Navbtn topic={topic} similarRooms={similarRooms} setTopic={setTopic}></Navbtn>
+      <div className="ml-4 text-xl truncate">{topic}</div>
     </div>
   );
 };
