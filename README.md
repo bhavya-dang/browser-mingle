@@ -1,8 +1,8 @@
 # Browser Mingle
 
-> Not your average Chat app.
+> Not your average Chat app.  
 
-> ![an ExcaliDraw snapshot showcasing some serious planning](https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/browsermingle-excalidraw.png)
+![an ExcaliDraw snapshot showcasing some serious planning](https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/browsermingle-excalidraw.png)
 
 BrowserMingle is a chrome extension that connects you with people who are consuming similar content.
 
