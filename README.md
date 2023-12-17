@@ -1,23 +1,25 @@
 # Browser Mingle
 
-![an ExcaliDraw snapshot showcasing some serious planning](https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/browsermingle-excalidraw.png)
+> Not your average Chat app.
 
-Not your average Chat app. BrowserMingle is a chrome extension that connects you with people who are consuming similar content.
+> ![an ExcaliDraw snapshot showcasing some serious planning](https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/browsermingle-excalidraw.png)
+
+BrowserMingle is a chrome extension that connects you with people who are consuming similar content.
 
 Connect, Chat and spam emojis :D
 
 ## How it works
 
-It throws you into a chatroom with people browsing the same site as you are.  
+It throws you into a chatroom with people browsing the same website as you are.  
 It uses Vector search to recommend similar rooms.
 
 ## Tech Stack
 
-**Client:** React, TailwindCSS, DaisyUI
+**Client:** [React](https://react.dev/), [TailwindCSS](https://tailwindcss.com/), [DaisyUI](https://daisyui.com/)
 
 **Server:** [Bun](https://bun.sh), [Supabase](https://supabase.com/)
 
-[more info](https://tangy-jail.surge.sh/)  
+[Explore our Mindmap.](https://tangy-jail.surge.sh/)
 
 ## Demo
 
@@ -31,7 +33,7 @@ Recommended Installation:
 - Unzip into a directory
 - Go to `chrome://extensions/`
 - Enable developer mode on the top right
-- Drag and drop / open unpacked and upload the unzipped directory
+- Drag and drop or open unpacked and upload the unzipped directory
 
 ## Run Locally
 
