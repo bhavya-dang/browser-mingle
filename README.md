@@ -1,5 +1,7 @@
 # Browser Mingle
 
+![https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/browsermingle-excalidraw.png](BrowserMingle Excalidraw)  
+
 Not your average Chat app. BrowserMingle is a chrome extension that connects you with people who are consuming similar content.
 
 Connect, Chat and spam emojis :D
@@ -15,11 +17,11 @@ It uses Vector search to recommend similar rooms.
 
 **Server:** [Bun](https://bun.sh), [Supabase](https://supabase.com/)
 
-**More info:** https://tangy-jail.surge.sh/
+[more info](https://tangy-jail.surge.sh/)  
 
 ## Demo
 
-Insert gif or link to demo
+<Insert GIF or link to demo>
 
 ## Installation
 
@@ -33,7 +35,7 @@ Recommended Installation:
 
 ## Run Locally
 
-Clone to repo
+Clone the repo
 
 ```bash
   git clone https://github.com/Sync-Codes/browser-mingle
@@ -57,7 +59,7 @@ Build project
   bun cook
 ```
 
-Load the `dist/` into chrome extensions.
+Load the `dist/` directory into chrome extensions as an unpacked extension.
 
 ## Authors
 
