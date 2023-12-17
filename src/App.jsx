@@ -34,6 +34,8 @@ const App = () => {
 
       setInput("");
       document.getElementById("input-box").value = "";
+
+      document.getElementById("chat-scroll-area-inner").scrollTo({ top: document.getElementById("chat-scroll-area-inner").scrollHeight, behavior: "smooth" });
     }
   }
 
@@ -150,12 +152,12 @@ const App = () => {
   }, [room]);
 
   return (
-    <div className="flex flex-col min-h-screen max-h-screen">
+    <div className="flex flex-col min-h-screen max-h-screen"> {/* min-h-screen max-h-screen */}
 
       <div className="flex flex-1 overflow-hidden">
         <div className="flex flex-col flex-1 space-y-2">
         
-          <div className="flex h-24">
+          <div className="flex h-24" id="chat-scroll-area">
             <NavBar topic={topic} similarRooms={similarRooms} setTopic={setTopic} />
           </div>
 
