@@ -34,8 +34,6 @@ const App = () => {
 
       setInput("");
       document.getElementById("input-box").value = "";
-
-      document.getElementById("chat-scroll-area-inner").scrollTo({ top: document.getElementById("chat-scroll-area-inner").scrollHeight, behavior: "smooth" });
     }
   }
 
@@ -107,14 +105,14 @@ const App = () => {
           if (payload.new.type === "reaction") {
             let emoji;
             switch (payload.new.content) {
-              case "anya-scared":
-                emoji = "https://cdn3.emoji.gg/emojis/2101-anya-7.png";
+              case "vibin":
+                emoji = "https://emoji.discadia.com/emojis/788f3a39-7ecf-4aee-bac0-d7c0dbbf02a3.gif";
                 break;
-              case "pepecry":
-                emoji = "https://cdn3.emoji.gg/emojis/4153-pepe-cry.png";
+              case "pepe":
+                emoji = "https://emoji.discadia.com/emojis/PepeRain.gif";
                 break;
-              case "shocked":
-                emoji = "https://cdn3.emoji.gg/emojis/5850-shocked-emoji.png";
+              case "gojo":
+                emoji = "https://emoji.discadia.com/emojis/cdb3e0e6-85b8-47a5-b0dc-38b5ff4b0916.gif";
                 break;
               case "blob":
                 emoji = "https://cdn3.emoji.gg/emojis/3314-blobby-the-blob.gif";
@@ -157,7 +155,7 @@ const App = () => {
       <div className="flex flex-1 overflow-hidden">
         <div className="flex flex-col flex-1 space-y-2">
         
-          <div className="flex h-24" id="chat-scroll-area">
+          <div className="flex h-24">
             <NavBar topic={topic} similarRooms={similarRooms} setTopic={setTopic} />
           </div>
 

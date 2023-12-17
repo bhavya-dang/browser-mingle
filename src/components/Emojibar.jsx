@@ -28,24 +28,24 @@ const EmojiBar = ({ room, lusername }) => {
 
   const emojis = [
     {
-      name: "anya-scared",
-      identifier: "2101-anya-7.png",
+      name: "vibin",
+      identifier: "https://emoji.discadia.com/emojis/788f3a39-7ecf-4aee-bac0-d7c0dbbf02a3.gif",
     },
     {
-      name: "pepecry",
-      identifier: "4153-pepe-cry.png",
+      name: "pepe",
+      identifier: "https://emoji.discadia.com/emojis/PepeRain.gif",
     },
     {
-      name: "shocked",
-      identifier: "5850-shocked-emoji.png",
+      name: "gojo",
+      identifier: "https://emoji.discadia.com/emojis/cdb3e0e6-85b8-47a5-b0dc-38b5ff4b0916.gif"
     },
     {
       name: "blob",
-      identifier: "3314-blobby-the-blob.gif",
+      identifier: "https://cdn3.emoji.gg/emojis/3314-blobby-the-blob.gif",
     },
     {
       name: "mikuparty",
-      identifier: "4548-miku-party.png",
+      identifier: "https://cdn3.emoji.gg/emojis/4548-miku-party.png",
     },
   ];
 
@@ -63,7 +63,7 @@ const EmojiBar = ({ room, lusername }) => {
             <li key={emoji.name}>
               <a onClick={() => sendReaction(emoji.name) }>
                 <img
-                  src={`https://cdn3.emoji.gg/emojis/${emoji.identifier}`}
+                  src={emoji.identifier}
                   className="h-5 w-5"
                 ></img>
               </a>
