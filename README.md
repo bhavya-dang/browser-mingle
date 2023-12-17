@@ -17,7 +17,7 @@ It uses Vector search to recommend similar rooms.
 
 **Client:** [React](https://react.dev/), [TailwindCSS](https://tailwindcss.com/), [DaisyUI](https://daisyui.com/)
 
-**Server:** [Bun](https://bun.sh), [Supabase](https://supabase.com/)
+**Server:** [Bun](https://bun.sh), [Supabase](https://supabase.com/), [Pinecone](https://www.pinecone.io/)  
 
 [Explore our Mindmap.](https://tangy-jail.surge.sh/)
 
