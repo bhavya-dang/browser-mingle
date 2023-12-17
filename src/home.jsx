@@ -5,16 +5,18 @@ import ReactDOM from 'react-dom';
 export default function Home() {
   function setLocalUsername() {
     const username = document.getElementById('username').value;
-    localStorage.setItem('username', username);
-    console.log(username);
-    ReactDOM.render(<App key={Math.random()} />, document.getElementById('root'));
+    if (username.length > 0) {
+      localStorage.setItem('username', username);
+      console.log(username);
+      ReactDOM.render(<App key={Math.random()} />, document.getElementById('root'));
+    }
   }
 
   if (localStorage.getItem('username') === '' || localStorage.getItem('username') === null) {
     return (
       <>
         <div className="flex left-2 right-2 justify-center items-center h-screen">
-          <div className="card w-96 glass mx-8">
+          <div className="card w-96 glass mx-8 my-20">
             <figure><img src="https://cdn.britannica.com/15/241115-050-41EBA94D/Wanderer-Above-the-Sea-Fog-Caspar-David-Friedrich-Hamburger-Kunsthalle-Hamburg-Germany.jpg" alt="'Wanderer Above The Sea Of Fog' by Caspar David Friedrich"/></figure>
             <div className="card-body">
               <h2 className="card-title">Welcome to BrowserMingle</h2>

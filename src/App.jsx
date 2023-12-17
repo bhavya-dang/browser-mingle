@@ -150,42 +150,31 @@ const App = () => {
   }, [room]);
 
   return (
-    <>
-      {/*
-      <img
-        alt=""
-        className="bg-[url(https://www.openbin.dev/_next/static/media/grid.41943b4a.svg)] w-full h-full object-cover filter brightness-75 blur-lg"
-        width="1308"
-      />
-      */}
+    <div className="flex flex-col min-h-screen max-h-screen">
 
-      <div className="h-full relative">
+      <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-col flex-1 space-y-2">
+        
+          <div className="flex h-24">
+            <NavBar topic={topic} similarRooms={similarRooms} setTopic={setTopic} />
+          </div>
 
-        <div className="p-4 w-full z-10 fixed top-0 z-10 glass">
-          <NavBar topic={topic} similarRooms={similarRooms} setTopic={setTopic} />
-        </div>
+          <div className="flex flex-1 overflow-x-hidden overflow-y-auto">
+            <MessageList messages={messages} username={lusername} />
+          </div>
 
-        <div className="overflow-auto p-4 my-16">
-          <MessageList messages={messages} username={lusername} />
-        </div>
-
-        <div className="p-4 w-full z-10 fixed bottom-0 z-10 flex justify-center">
-          <MessageInput
-            input={input}
-            setInput={setInput}
-            sendMessage={sendMessage}
-            room={room}
-            lusername={lusername}
-          />
         </div>
       </div>
 
-      {/* <EmojiBar room={room} lusername={lusername} /> */}
+      <MessageInput
+        input={input}
+        setInput={setInput}
+        sendMessage={sendMessage}
+        room={room}
+        lusername={lusername}
+      />
 
-      {/* <div>
-        <button className="button" onClick={sendReaction}>send reaction</button>
-      </div> */}
-    </>
+    </div>
   );
 };
 
