@@ -1,7 +1,7 @@
 import React from "react";
 import EmojiBar from "./Emojibar";
 
-const MessageInput = ({ input, setInput, sendMessage, room, lusername }) => {
+const MessageInput = ({ input, setInput, sendMessage, room, lusername, channel }) => {
   return (
     <div className="flex gap-3 p-2 w-full justify-center items-center h-24">
       <input
@@ -20,7 +20,7 @@ const MessageInput = ({ input, setInput, sendMessage, room, lusername }) => {
         placeholder={room ? "say something" : "joining room..."}
         disabled={room ? false : true}
       />
-      <EmojiBar lusername={lusername} room={room}></EmojiBar>
+      <EmojiBar lusername={lusername} room={room} channel={channel}></EmojiBar>
       <button
         className="btn btn-accent "
         disabled={room ? false : true}

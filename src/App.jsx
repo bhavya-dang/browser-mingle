@@ -14,23 +14,29 @@ const App = () => {
 
   const [similarRooms, setsimilarRooms] = useState([]);
 
+  const [channel, setChannel] = useState(undefined);
+
 
   // Function to send a message
   async function sendMessage() {
-    const message = input;
-    if (message.trim() !== "") {
-      const { data, error } = await supabase.from("messages").insert([
-        {
-          room_id: room,
-          content: message.slice(0, 512),
-          timestamp: new Date(),
-          username: lusername,
-        },
-      ]);
+    if (input && input.trim() !== "" && channel && room) {
 
-      if (error) {
-        console.error("Error sending message:", error.message);
-      }
+      //channel.subscribe((status) => {
+      //  if (status !== 'SUBSCRIBED') { return }
+
+        // Send a message once the client is subscribed
+        await channel.send({
+          type: 'broadcast',
+          event: 'message',
+          payload: {
+            room_id: room,
+            content: input.slice(0, 512),
+            timestamp: new Date(),
+            username: lusername,
+            type: "message"
+          },
+        })
+      //});
 
       setInput("");
       document.getElementById("input-box").value = "";
@@ -91,62 +97,69 @@ const App = () => {
   }, [topic]);
 
   useEffect(() => {
-    const subscription = supabase
-      .channel("messages")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "messages",
-          filter: "room_id=eq." + room,
-        },
-        (payload) => {
-          if (payload.new.type === "reaction") {
-            let emoji;
-            switch (payload.new.content) {
-              case "vibin":
-                emoji = "https://emoji.discadia.com/emojis/788f3a39-7ecf-4aee-bac0-d7c0dbbf02a3.gif";
-                break;
-              case "pepe":
-                emoji = "https://emoji.discadia.com/emojis/PepeRain.gif";
-                break;
-              case "gojo":
-                emoji = "https://emoji.discadia.com/emojis/cdb3e0e6-85b8-47a5-b0dc-38b5ff4b0916.gif";
-                break;
-              case "blob":
-                emoji = "https://cdn3.emoji.gg/emojis/3314-blobby-the-blob.gif";
-                break;
-              case "mikuparty":
-                emoji = "https://cdn3.emoji.gg/emojis/4548-miku-party.png";
-                break;
-              default:
-              // code block
+    if (room) {
+      
+      const subscription = supabase
+        .channel(room, {
+          config: {
+            broadcast: { self: true },
+          },
+        })
+        .on(
+          "broadcast",
+          { event: "message" },
+          (res) => {
+            const payload = res.payload;
+
+            if (payload.type === "reaction") {
+              let emoji;
+              switch (payload.content) {
+                case "vibin":
+                  emoji = "https://emoji.discadia.com/emojis/788f3a39-7ecf-4aee-bac0-d7c0dbbf02a3.gif";
+                  break;
+                case "pepe":
+                  emoji = "https://emoji.discadia.com/emojis/PepeRain.gif";
+                  break;
+                case "gojo":
+                  emoji = "https://emoji.discadia.com/emojis/cdb3e0e6-85b8-47a5-b0dc-38b5ff4b0916.gif";
+                  break;
+                case "blob":
+                  emoji = "https://cdn3.emoji.gg/emojis/3314-blobby-the-blob.gif";
+                  break;
+                case "mikuparty":
+                  emoji = "https://cdn3.emoji.gg/emojis/4548-miku-party.png";
+                  break;
+                default:
+                // code block
+              }
+              floating({
+                content: `<div style="display: block;">
+                            <img src=${emoji} alt=${payload.content}>
+                            <p style="font-size: 40%;">${payload.username}</p>
+                          </div>`,
+                number: 1,
+                size: [4, 5],
+                repeat: 1,
+              });
+            } else if (payload.content.trim() === ":q")  {
+              insertEgg("https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/vim-linux.gif", payload.username);
+              addMessage(payload);
+            } else if (payload.content.includes("big brain")) {
+              insertEgg("https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/mind-blown-mind-explosion.gif", payload.username);
+              addMessage(payload);
+            } else if (payload.content.includes("supabase")) {
+              insertEgg("https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/supabase.png", payload.username);
+              addMessage(payload);
+            } else {
+              addMessage(payload);
             }
-            floating({
-              content: `<div style="display: block;">
-                          <img src=${emoji} alt=${payload.new.content}>
-                          <p style="font-size: 40%;">${payload.new.username}</p>
-                        </div>`,
-              number: 1,
-              size: [4, 5],
-              repeat: 1,
-            });
-          } else if (payload.new.content.trim() === ":q")  {
-            insertEgg("https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/vim-linux.gif", payload.new.username);
-            addMessage(payload.new);
-          } else if (payload.new.content.includes("big brain")) {
-            insertEgg("https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/mind-blown-mind-explosion.gif", payload.new.username);
-            addMessage(payload.new);
-          } else if (payload.new.content.includes("supabase")) {
-            insertEgg("https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/supabase.png", payload.new.username);
-            addMessage(payload.new);
-          } else {
-            addMessage(payload.new);
           }
-        }
-      )
-      .subscribe();
+        );
+
+        subscription.subscribe();
+
+        setChannel(subscription);
+      }
   }, [room]);
 
   return (
@@ -172,6 +185,7 @@ const App = () => {
         sendMessage={sendMessage}
         room={room}
         lusername={lusername}
+        channel={channel}
       />
 
     </div>

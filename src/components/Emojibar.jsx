@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import supabase from "../../supabase";
 
-const EmojiBar = ({ room, lusername }) => {
+const EmojiBar = ({ room, lusername, channel }) => {
   // array of random emojis for fun (tm)
   const emoji_rand = [
     '🥰',
@@ -15,15 +15,19 @@ const EmojiBar = ({ room, lusername }) => {
 
   // function to send a reaction
   async function sendReaction(emoji) {
-    const { data, error } = await supabase.from("messages").insert([
-      {
+
+    await channel.send({
+      type: 'broadcast',
+      event: 'message',
+      payload: {
         room_id: room,
         content: emoji,
-        type: "reaction",
         timestamp: new Date(),
         username: lusername,
+        type: "reaction"
       },
-    ]);
+    })
+
   }
 
   const emojis = [
