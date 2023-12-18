@@ -73,7 +73,11 @@ const App = () => {
       { type: "window_tab_data_request" },
       (response) => {
         console.log("WIN: received data from background script", response);
-        setTopic(response.title);
+        if (response) {
+          setTopic(response.title);
+        } else {
+          alert("Unable to set topic. Please reload the tab and re-launch the extension.");
+        }
       }
     );
   }, []);
