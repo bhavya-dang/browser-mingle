@@ -1,5 +1,5 @@
 # Browser Mingle
-
+[![Made with Supabase](https://supabase.com/badge-made-with-supabase.svg)](https://supabase.com)
 > Not your average Chat app.  
 
 ![an ExcaliDraw snapshot showcasing some serious planning](https://rvcsutokdfgfytaugjyw.supabase.co/storage/v1/object/public/eggs/browsermingle-excalidraw.png)
